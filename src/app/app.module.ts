@@ -28,7 +28,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(formBackData),
     FormsModule,
-    ModalModule,
+    ModalModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
