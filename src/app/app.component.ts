@@ -65,10 +65,6 @@ export class AppComponent implements OnInit {
     this.getData();
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-
   private getData() {
     this.service.getData().subscribe({
       next: (data) => {
@@ -80,6 +76,23 @@ export class AppComponent implements OnInit {
   }
   resetValues() {
     this.customerForm.reset();
+  }
+
+  openModal(template: TemplateRef<any>, formUser?: IForm) {
+    if (formUser != null) {
+      // updates form values if there is a user
+      this.customerForm.patchValue({
+        id: formUser.id,
+        firstName: formUser.firstName,
+        lastName: formUser.lastName,
+        bodySize: formUser.bodySize,
+        description: formUser.description,
+      });
+    } else {
+      // clears the form if there is no user
+      this.customerForm.reset();
+    }
+    this.modalRef = this.modalService.show(template);
   }
 
   update(formUserId: number) {

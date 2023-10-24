@@ -1,7 +1,7 @@
 <header class="p-5">
   <main>
     <section>
-      <button class="btn btn-primary" (click)="openModal(template)">
+      <button class="btn btn-primary" (click)="openModal(template, undefined)">
         Add a new user
       </button>
     </section>
@@ -26,7 +26,7 @@
         <td>{{ formUser.bodySize }}</td>
         <td>{{ formUser.description }}</td>
         <td>
-          <button (click)="update(formUser.id)">Edit</button>
+          <button (click)="openModal(template, formUser)">Edit</button>
         </td>
         <td>
           <button (click)="deleteItem(formUser.id)">Delete</button>
