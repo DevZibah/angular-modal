@@ -1,6 +1,7 @@
 <header class="p-5">
   <main>
     <section>
+      <!-- the undefined acts as a null user -->
       <button class="btn btn-primary" (click)="openModal(template, undefined)">
         Add a new user
       </button>
@@ -183,7 +184,9 @@
                   "
                   [disabled]="!customerForm.valid"
                 >
-                  Save
+                  {{
+                    customerForm.value.id != null ? "Edit User" : "Add New User"
+                  }}
                 </button>
               </div>
             </div>

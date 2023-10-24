@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerForm = this.fb.group({
-      id: null,
+      id: [<number | null>null],
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: ['', [Validators.required, Validators.maxLength(20)]],
       bodySize: [null, bodySize(8, 18)],
@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
     if (formUser != null) {
       // updates form values if there is a user
       this.customerForm.patchValue({
-        id: formUser.id,
+        id: formUser!.id,
         firstName: formUser.firstName,
         lastName: formUser.lastName,
         bodySize: formUser.bodySize,
@@ -93,24 +93,6 @@ export class AppComponent implements OnInit {
       this.customerForm.reset();
     }
     this.modalRef = this.modalService.show(template);
-  }
-
-  update(formUserId: number) {
-    if (formUserId) {
-      const formUser = this.formUsers.find((x) => x.id === formUserId);
-      console.log(formUser);
-
-      if (!formUser) return;
-      this.customerForm.setValue({
-        id: formUser.id,
-        firstName: formUser.firstName,
-        lastName: formUser.lastName,
-        bodySize: formUser.bodySize,
-        description: formUser.description,
-      });
-    } else {
-      alert('Error updating item');
-    }
   }
 
   save(): void {
