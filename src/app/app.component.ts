@@ -131,11 +131,11 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/pages/jenzco-hotels']);
   }
 
-  deleteModal(template: TemplateRef<any>, formUserId: number) {
+  deleteModal(templatee: TemplateRef<any>, formUserId: number) {
     if (formUserId) {
       this.deleteMessage = 'Are you sure of deleting?';
     }
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(templatee);
   }
   deleteItem(formUserId: number): void {
     this.service.deleteItemById(formUserId).subscribe((response) => {
