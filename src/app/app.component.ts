@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IForm } from './form-modal/form-Interface';
-import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 function bodySize(min: number, max: number): ValidatorFn {
@@ -111,6 +110,7 @@ export class AppComponent implements OnInit {
               console.log(response);
               this.getData();
               this.resetValues();
+              this.modalRef?.hide();
             });
         } else {
           this.service
@@ -119,6 +119,7 @@ export class AppComponent implements OnInit {
               console.log(response);
               this.getData();
               this.resetValues();
+              this.modalRef?.hide();
             });
         }
       } else {

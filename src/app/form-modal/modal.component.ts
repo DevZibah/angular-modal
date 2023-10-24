@@ -1,10 +1,106 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { formServices } from './form.service';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IForm } from './form-Interface';
+
+function bodySize(min: number, max: number): ValidatorFn {
+  // we can add our custom validator function above the component class because the validator will only be used by this component.
+  // to allow a formControl or a formgroup, we specify AbstractControl here
+  // this is the return validator function
+  return (c: AbstractControl): { [key: string]: boolean } | null => {
+    // we check if the AbstractControl has a value that is not null, is not a number, is less than 1, or greater than 5
+    if (
+      c.value !== null &&
+      (isNaN(c.value) || c.value < min || c.value > max)
+    ) {
+      // if so, we return the key and value pair specifying the name of the validation rule, we'll call it range and true to indicate that the validation rule was broken. the validation rule name is then added to the errors collection for the passed passed in FormControl
+      return { range: true };
+    }
+    // if the control is valid, we return null, meaning no error message
+    return null;
+  };
+}
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./modal.component.css'],
 })
-export class ModalComponent {
+export class ModalComponent implements OnInit {
+  customerForm!: FormGroup;
+  errorMessage = '';
 
+  formUsers: IForm[] = [];
+  edit = true;
+  add = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private service: formServices,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
+
+  ngOnInit(): void {
+    this.customerForm = this.fb.group({
+      id: null,
+      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.maxLength(20)]],
+      bodySize: [null, bodySize(8, 18)],
+      description: ['', [Validators.required, Validators.maxLength(256)]],
+    });
+
+    // Getting the formUsers
+    this.getData();
+  }
+  private getData() {
+    this.service.getData().subscribe({
+      next: (data) => {
+        this.formUsers = data;
+        console.log(this.formUsers);
+      },
+      error: (err) => (this.errorMessage = err),
+    });
+  }
+  resetValues() {
+    this.customerForm.reset();
+  }
+  save(): void {
+    if (this.customerForm.valid) {
+      if (this.customerForm.dirty) {
+        if (this.customerForm.value.id === null) {
+          this.service
+            .createItem(this.customerForm.value)
+            .subscribe((response) => {
+              console.log(response);
+              this.getData();
+              this.resetValues();
+            });
+        } else {
+          this.service
+            .updateItem(this.customerForm.value)
+            .subscribe((response) => {
+              console.log(response);
+              this.getData();
+              this.resetValues();
+            });
+        }
+      } else {
+        this.onSaveComplete();
+      }
+    } else {
+      this.errorMessage = 'Please correct the validation errors.';
+    }
+  }
+  onSaveComplete(): void {
+    this.customerForm.reset();
+    this.router.navigate(['/pages/jenzco-hotels']);
+  }
 }

@@ -1,10 +1,9 @@
-<ng-template #template>
+<!-- <ng-template #template>
   <footer class="border border-danger bg-white text-dark">
     <div class="card mt-4">
       <div class="card-header">Enter your details here!</div>
 
       <div class="card-body">
-        <!-- we use property binding to bind to our class component using [formGroup]-->
         <form novalidate (ngSubmit)="save()" [formGroup]="customerForm">
           <div>
             <input
@@ -98,7 +97,6 @@
                 }"
               />
               <span class="invalid-feedback">
-                <!-- range refers to the error message we'll display -->
                 <span *ngIf="customerForm.get('bodySize')?.errors?.['range']">
                   Please enter your body size which should range from 8 to 18.
                 </span>
@@ -151,8 +149,7 @@
             </div>
           </div>
         </form>
-       
       </div>
     </div>
-    
-  </footer></ng-template>
+  </footer></ng-template
+> -->
