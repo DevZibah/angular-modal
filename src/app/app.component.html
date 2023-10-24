@@ -30,12 +30,18 @@
           <button (click)="openModal(template, formUser)">Edit</button>
         </td>
         <td>
-          <button (click)="deleteItem(formUser.id)">Delete</button>
+          <button (click)="deleteModal(template, formUser.id)">Delete</button>
         </td>
+        <ng-template #template>
+          <h4>{{ deleteMessage }}</h4>
+          <button (click)="deleteItem(formUser.id)">Yes</button>
+          <button (click)="exitModal()">No</button>
+        </ng-template>
       </tr>
     </table>
   </section>
   <!-- modal template -->
+  <!-- '#template' is used in the openModal function. it basically tells the function which content to show in the modal when it opens -->
   <ng-template #template>
     <footer class="border border-danger bg-white text-dark">
       <div class="card mt-4">
@@ -176,7 +182,7 @@
                 <button
                   class="btn btn-primary mr-3"
                   type="submit"
-                  style="width: 80px"
+                  style="width: 150px"
                   [title]="
                     customerForm.valid
                       ? 'Save your entered data'
