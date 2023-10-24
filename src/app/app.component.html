@@ -34,17 +34,26 @@
           <button (click)="deleteModal(templatee, formUser.id)">Delete</button>
         </td>
         <!-- this is a delete modal templatee. -->
-        <section class="mt-5 p-4">
+        <section class="mt-3 p-4">
           <ng-template #templatee>
-            <h4>{{ deleteMessage }}</h4>
-            <div class="row">
-              <div class="col-6">
-                <button (click)="deleteItem(formUser.id)">Yes</button>
+            <main class="mt-5 p-4 text-center">
+              <h4>{{ deleteMessage }}</h4>
+              <div class="row mt-4 mb-4">
+                <div class="col-md-6">
+                  <button
+                    class="btn btn-primary w-100"
+                    (click)="deleteItem(formUser.id)"
+                  >
+                    Yes
+                  </button>
+                </div>
+                <div class="col-md-6">
+                  <button class="btn btn-primary w-100" (click)="exitModal()">
+                    No
+                  </button>
+                </div>
               </div>
-              <div class="col-6">
-                <button (click)="exitModal()">No</button>
-              </div>
-            </div>
+            </main>
           </ng-template>
         </section>
       </tr>
