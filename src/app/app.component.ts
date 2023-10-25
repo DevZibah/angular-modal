@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IForm } from './form-modal/form-Interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
+// this is a validation function for the form field, bodySize
 function bodySize(min: number, max: number): ValidatorFn {
   // we can add our custom validator function above the component class because the validator will only be used by this component.
   // to allow a formControl or a formgroup, we specify AbstractControl here
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
   edit = true;
   add = false;
 
+  // this is a modal var and its type is BsModalRef
   modalRef?: BsModalRef;
   formUser: any;
 
@@ -67,6 +69,7 @@ export class AppComponent implements OnInit {
     this.getData();
   }
 
+  // this is a function(fn) to get all users from the fake database
   private getData() {
     this.service.getData().subscribe({
       next: (data) => {
@@ -76,10 +79,13 @@ export class AppComponent implements OnInit {
       error: (err) => (this.errorMessage = err),
     });
   }
+
+  // this fn below clears all inputs on the form when its called
   resetValues() {
     this.customerForm.reset();
   }
 
+  // this fn takes in two params: template(the html content to display) and formUser(the structure of the users details)
   openModal(template: TemplateRef<any>, formUser?: IForm) {
     if (formUser != null) {
       // updates form values if there is a user
@@ -94,9 +100,11 @@ export class AppComponent implements OnInit {
       // clears the form if there is no user
       this.customerForm.reset();
     }
+    // this opens up the modal
     this.modalRef = this.modalService.show(template);
   }
 
+  // this fn is called up when the save/add user button is called. it checks if a user is null (if it's a new user), then saves the user
   save(): void {
     if (this.customerForm.valid) {
       if (this.customerForm.dirty) {
@@ -110,6 +118,7 @@ export class AppComponent implements OnInit {
               this.modalRef?.hide();
             });
         } else {
+          // this updates an existing user's details
           this.service
             .updateItem(this.customerForm.value)
             .subscribe((response) => {
@@ -132,12 +141,14 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/pages/jenzco-hotels']);
   }
 
+  // when this fn is called, it opens up the modal and asks a user a question(deleteMessage) 
   deleteModal(templatee: TemplateRef<any>, formUserId: number) {
     if (formUserId) {
       this.deleteMessage = 'Are you sure of deleting?';
     }
     this.modalRef = this.modalService.show(templatee);
   }
+  // this fn deletes a selected user and closes the modal
   deleteItem(formUserId: number): void {
     this.service.deleteItemById(formUserId).subscribe((response) => {
       console.log(response);
@@ -147,10 +158,12 @@ export class AppComponent implements OnInit {
       this.modalRef?.hide();
     });
   }
+  // this fn closes a modal
   exitModal() {
     this.modalRef?.hide();
   }
 
+  // this fn is called when a user's firstName is clicked on in order to view their details
   viewDataById(viewTemplate: TemplateRef<any>, formUserId: number) {
     if (formUserId) {
       this.modalRef = this.modalService.show(viewTemplate);
