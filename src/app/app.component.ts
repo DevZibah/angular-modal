@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
   add = false;
 
   modalRef?: BsModalRef;
+  formUser: any;
 
   constructor(
     private fb: FormBuilder,
@@ -149,21 +150,17 @@ export class AppComponent implements OnInit {
   exitModal() {
     this.modalRef?.hide();
   }
-  getDataById(formUserId: number) {
+
+  viewDataById(viewTemplate: TemplateRef<any>, formUserId: number) {
     if (formUserId) {
-      const formUser = this.formUsers.find((x) => x.id === formUserId);
-      console.log(formUser);
+      this.modalRef = this.modalService.show(viewTemplate);
+      this.formUser = this.formUsers.find((x) => x.id === formUserId);
+      console.log(this.formUser);
 
       this.service.getDataById(formUserId).subscribe((response) => {
-        console.log(response);
-        this.getData();
-        this.resetValues();
+        this.formUser = response;
+        console.log(this.formUser);
       });
     }
-    this.router.navigate([
-      '/pages/jenzco-hotels',
-      formUserId,
-      'jenzco-form-list',
-    ]);
   }
 }

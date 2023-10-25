@@ -20,7 +20,7 @@
       </tr>
       <tr *ngFor="let formUser of formUsers">
         <td>{{ formUser.id }}</td>
-        <td (click)="getDataById(formUser.id)" class="cursor">
+        <td (click)="viewDataById(viewTemplate, formUser.id)" class="cursor">
           {{ formUser.firstName }}
         </td>
         <td>{{ formUser.lastName }}</td>
@@ -220,4 +220,19 @@
       </div>
     </footer></ng-template
   >
+<!-- view user template -->
+  <section class="">
+    <ng-template #viewTemplate>
+      <div class="p-4" *ngIf="formUser">
+        <div class="">
+          <h4 class="">First Name: {{ formUser.firstName }}</h4>
+          <h4 class="">Last name: {{ formUser.lastName }}</h4>
+        </div>
+        <div class="">
+          <h4 class="">Body Size: {{ formUser.bodySize }}</h4>
+          <h4 class="">Description: {{ formUser.description }}</h4>
+        </div>
+      </div>
+    </ng-template>
+  </section>
 </header>
